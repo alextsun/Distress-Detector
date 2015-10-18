@@ -15,22 +15,42 @@ import android.widget.TextView;
 import com.microsoft.band.BandClient;
 import com.microsoft.band.BandClientManager;
 import com.microsoft.band.BandException;
+import com.microsoft.band.BandIOException;
 import com.microsoft.band.BandInfo;
 import com.microsoft.band.ConnectionState;
+import com.microsoft.band.UserConsent;
+import com.microsoft.band.sensors.BandHeartRateEvent;
+import com.microsoft.band.sensors.BandHeartRateEventListener;
 import com.microsoft.band.sensors.HeartRateConsentListener;
 
 import java.lang.ref.WeakReference;
 
-public class PairingBand extends AppCompatActivity {
+public class PairingBand extends AppCompatActivity implements HeartRateConsentListener{
 
     private BandClient client = null;
     private Button btnStart, btnConsent;
     private TextView txtStatus;
+    private int heartRate = 0;
+
+    private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
+        @Override
+        public void onBandHeartRateChanged(final BandHeartRateEvent event) {
+            heartRate = event.getHeartRate();
+            Log.e("heart rate", String.valueOf(heartRate));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pairing_band);
+        Intent in = getIntent();
+
+        String name = in.getStringExtra("name");
+        int phNum = Integer.parseInt(in.getStringExtra("phNum"));
+        int age = Integer.parseInt(in.getStringExtra("age"));
+
+        Log.e("message", "Name: " + name + " phNum: " + phNum + " age: " + age);
 
         txtStatus = (TextView) findViewById(R.id.txtStatus);
 
@@ -47,9 +67,35 @@ public class PairingBand extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (client!=null) {
+            try {
+                client.getSensorManager().unregisterHeartRateEventListener(mHeartRateEventListener);
+            } catch (BandIOException e) {
+                Log.e("msft band io error", e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (client != null) {
+            try {
+                client.disconnect().await();
+            } catch (InterruptedException e) {
+                // Do nothing as this is happening during destroy
+            } catch (BandException e) {
+                // Do nothing as this is happening during destroy
+            }
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_pairing_band, menu);
+        getMenuInflater().inflate(R.menu.menu_on_screen, menu);
         return true;
     }
 
@@ -68,6 +114,11 @@ public class PairingBand extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void userAccepted(boolean consent) {
+
+    }
+
     private class HeartRateConsentTask extends AsyncTask<WeakReference<Activity>, Void, Void> {
         @Override
         protected Void doInBackground(WeakReference<Activity>... params) {
@@ -79,6 +130,19 @@ public class PairingBand extends AppCompatActivity {
                             @Override
                             public void userAccepted(boolean consentGiven) {
                                 Log.e("test", "user accepted");
+                                if (!consentGiven) {
+                                    txtStatus.setText("The Microsoft Band needs permission to take your heart rate for the app to work");
+                                } else {
+                                    txtStatus.setText("We\'re monitoring!");
+                                    try {
+                                        // register the listener
+                                        client.getSensorManager().registerHeartRateEventListener(
+                                                mHeartRateEventListener);
+                                    } catch (BandException ex) {
+                                        // handle BandException
+                                    }
+                                }
+
                             }
                         });
 

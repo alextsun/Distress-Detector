@@ -3,6 +3,7 @@ package com.example.kimberly.distressdetector;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +27,11 @@ public class MainActivity extends AppCompatActivity {
         EditText et3 = (EditText) findViewById(R.id.editText3);
         String name = (et3.getText().toString());
 
-        Intent transfer = new Intent(this, OnScreenActivity.class);
+        Intent transfer = new Intent(this, PairingBand.class);
         transfer.putExtra("age", String.valueOf(age));
         transfer.putExtra("phNum", String.valueOf(phNum));
         transfer.putExtra("name", name);
         startActivity(transfer);
-
-
-
-
     }
 
     @Override

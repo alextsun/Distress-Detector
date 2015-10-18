@@ -22,7 +22,7 @@ public class SplashScreen extends Activity {
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(SplashScreen.this,PairingBand.class);
+                    Intent intent = new Intent(SplashScreen.this,MainActivity.class);
                     startActivity(intent);
                 }
             }

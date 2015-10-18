@@ -4,6 +4,8 @@ public class HeartRateConsentListenerImpl {
 
     public static final int SAMPLES = 1000;
 
+    private int age;
+
     private double avg;
     private double std;
     private int[] samples;
@@ -11,8 +13,9 @@ public class HeartRateConsentListenerImpl {
 
     public static final double Z_SCORE = 1.96;
 
-    public HeartRateConsentListenerImpl() {
+    public HeartRateConsentListenerImpl(int age) {
         samples = new int[SAMPLES];
+        this.age = age;
         getSamples();
         calcAvg();
         calcSTD();

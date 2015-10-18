@@ -26,10 +26,6 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".OnScreenActivity"
-            android:label="@string/title_activity_on_screen" >
-        </activity>
-        <activity
             android:name=".PairingBand"
             android:label="@string/title_activity_pairing_band" >
         </activity>
