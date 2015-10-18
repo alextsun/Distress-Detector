@@ -10,5 +10,9 @@
 
     <string name="title">Distress Detector</string>
     <string name="title_activity_on_screen">OnScreenActivity</string>
-    <string name="title_activity_heart_rate_consent">HeartRateConsentActivity</string>
+
+    <string name="title_activity_pairing_band">PairingBand</string>
+
+    <string name="pair_band">Let\'s pair your Microsoft band with your phone! Please press the button to get started</string>
+    <string name="pair_btn">Pair Microsoft Band</string>
 </resources>
