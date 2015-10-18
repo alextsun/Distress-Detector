@@ -1,30 +1,26 @@
 package com.example.kimberly.distressdetector;
 
+import java.util.*;
+
 public class HeartRateConsentListenerImpl {
 
     public static final int SAMPLES = 1000;
-
-    private int age;
+    public static final int MIN_SAMPLES = 10;
 
     private double avg;
     private double std;
-    private int[] samples;
+    private List<Integer> samples;
     // public int currentHeartRate;
 
-    public static final double Z_SCORE = 1.96;
+    public static final double Z_SCORE = 1.5;
 
-    public HeartRateConsentListenerImpl(int age) {
-        samples = new int[SAMPLES];
-        this.age = age;
-        getSamples();
-        calcAvg();
-        calcSTD();
+    public HeartRateConsentListenerImpl() {
+        samples = new ArrayList<Integer>(SAMPLES);
     }
 
-    private void getSamples() {
-        for (int i = 0; i < SAMPLES; i++) {
-            // TODO: fix API call
-            // sampleHeartRates[i] = getHeartRate();
+    public void addSample(int rate) {
+        if (samples.size() < SAMPLES) {
+            samples.add(rate);
         }
     }
 
@@ -33,7 +29,7 @@ public class HeartRateConsentListenerImpl {
         for (int heartRate : samples) {
             sum += heartRate;
         }
-        avg = sum / SAMPLES;
+        avg = sum / samples.size();
     }
 
     private void calcSTD() {
@@ -41,11 +37,13 @@ public class HeartRateConsentListenerImpl {
         for (int heartRate : samples) {
             sumDiffs += Math.pow(heartRate - sumDiffs, 2);
         }
-        double var = sumDiffs / (SAMPLES - 1);
+        double var = sumDiffs / (samples.size() - 1);
         std = Math.sqrt(var);
     }
 
     public boolean inNormalRange(int currentHeartRate) {
+        calcAvg();
+        calcSTD();
         double min = avg - Z_SCORE * std;
         double max = avg + Z_SCORE * std;
         return min < currentHeartRate && currentHeartRate < max;

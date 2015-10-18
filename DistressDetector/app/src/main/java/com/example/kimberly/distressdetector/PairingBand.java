@@ -31,11 +31,23 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
     private Button btnStart, btnConsent;
     private TextView txtStatus;
     private int heartRate = 0;
+    private HeartRateConsentListenerImpl impl = new HeartRateConsentListenerImpl();
+
+    private int times = 0;
 
     private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             heartRate = event.getHeartRate();
+            times++;
+            impl.addSample(heartRate);
+            if(times>HeartRateConsentListenerImpl.MIN_SAMPLES) {
+                boolean cond=impl.inNormalRange(heartRate);
+                if(!cond) {
+                    // handle this
+                    Log.e("out of range", ""+heartRate);
+                }
+            }
             Log.e("heart rate", String.valueOf(heartRate));
         }
     };
