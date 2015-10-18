@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashScreen"
-            android:label="@string/title_activity_splash_screen">
+            android:label="@string/title_activity_splash_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +21,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title" >
             android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name=".util.OnScreenActivity"
+            android:label="@string/title_activity_on_screen" >
         </activity>
     </application>
 

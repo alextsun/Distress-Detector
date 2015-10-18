@@ -1,9 +1,14 @@
 package com.example.kimberly.distressdetector;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import com.example.kimberly.distressdetector.util.OnScreenActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +16,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void handleClick(View v) {
+        EditText et1 = (EditText) findViewById(R.id.editText);
+        int age = Integer.parseInt(et1.getText().toString());
+
+        EditText et2 = (EditText) findViewById(R.id.editText2);
+        int phNum = Integer.parseInt(et2.getText().toString());
+
+        EditText et3 = (EditText) findViewById(R.id.editText3);
+        String name = (et3.getText().toString());
+
+        Intent transfer = new Intent(this, OnScreenActivity.class);
+        transfer.putExtra("age", String.valueOf(age));
+        transfer.putExtra("phNum", String.valueOf(phNum));
+        transfer.putExtra("name", name);
+        startActivity(transfer);
+
     }
 
     @Override
