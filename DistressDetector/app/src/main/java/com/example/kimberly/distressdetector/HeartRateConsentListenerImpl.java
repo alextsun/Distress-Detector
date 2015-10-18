@@ -1,3 +1,4 @@
+package com.example.kimberly.distressdetector;
 
 public class HeartRateConsentListenerImpl {
 
@@ -5,7 +6,7 @@ public class HeartRateConsentListenerImpl {
 
     private double avg;
     private double std;
-    private int[] sampleHeartRates;
+    private int[] samples;
     // public int currentHeartRate;
 
     public static final double Z_SCORE = 1.96;
@@ -20,13 +21,13 @@ public class HeartRateConsentListenerImpl {
     private void getSamples() {
         for (int i = 0; i < SAMPLES; i++) {
             // TODO: fix API call
-            sampleHeartRates[i] = getHeartRate();
+            // sampleHeartRates[i] = getHeartRate();
         }
     }
 
     private void calcAvg() {
         double sum = 0;
-        for (int heartRate : sampleHeartRates) {
+        for (int heartRate : samples) {
             sum += heartRate;
         }
         avg = sum / SAMPLES;
@@ -34,7 +35,7 @@ public class HeartRateConsentListenerImpl {
 
     private void calcSTD() {
         double sumDiffs = 0;
-        for (int heartRate : sampleHeartRates) {
+        for (int heartRate : samples) {
             sumDiffs += Math.pow(heartRate - sumDiffs, 2);
         }
         double var = sumDiffs / (SAMPLES - 1);
