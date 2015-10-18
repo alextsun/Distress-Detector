@@ -1,4 +1,4 @@
-package com.example.kimberly.distressdetector.util;
+package com.example.kimberly.distressdetector;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +21,7 @@ public class OnScreenActivity extends AppCompatActivity {
         int age = Integer.parseInt(in.getStringExtra("age"));
 
         Log.e("message", "Name: " + name + " phNum: " + phNum + " age: " + age);
+
         setContentView(R.layout.activity_on_screen);
     }
 

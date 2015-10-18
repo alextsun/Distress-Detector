@@ -23,7 +23,7 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".util.OnScreenActivity"
+            android:name=".OnScreenActivity"
             android:label="@string/title_activity_on_screen" >
         </activity>
     </application>

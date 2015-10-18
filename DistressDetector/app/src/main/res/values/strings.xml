@@ -10,4 +10,5 @@
 
     <string name="title">Distress Detector</string>
     <string name="title_activity_on_screen">OnScreenActivity</string>
+    <string name="title_activity_heart_rate_consent">HeartRateConsentActivity</string>
 </resources>

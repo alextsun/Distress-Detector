@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.kimberly.distressdetector.util.OnScreenActivity;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -33,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         transfer.putExtra("phNum", String.valueOf(phNum));
         transfer.putExtra("name", name);
         startActivity(transfer);
+
+
+
 
     }
 
