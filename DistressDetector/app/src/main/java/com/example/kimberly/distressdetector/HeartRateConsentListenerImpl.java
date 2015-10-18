@@ -1,5 +1,7 @@
 package com.example.kimberly.distressdetector;
 
+import android.util.Log;
+
 import java.util.*;
 
 public class HeartRateConsentListenerImpl {
@@ -33,17 +35,19 @@ public class HeartRateConsentListenerImpl {
     }
 
     private void calcSTD() {
+        calcAvg();
         double sumDiffs = 0;
         for (int heartRate : samples) {
-            sumDiffs += Math.pow(heartRate - sumDiffs, 2);
+            sumDiffs += Math.pow(heartRate - avg, 2);
         }
         double var = sumDiffs / (samples.size() - 1);
         std = Math.sqrt(var);
     }
 
     public boolean inNormalRange(int currentHeartRate) {
-        calcAvg();
         calcSTD();
+        Log.e("avg=", avg + "");
+        Log.e("std=",std+"");
         double min = avg - Z_SCORE * std;
         double max = avg + Z_SCORE * std;
         return min < currentHeartRate && currentHeartRate < max;
