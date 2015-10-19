@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,8 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
     private int heartRate = 0;
     private HeartRateConsentListenerImpl impl = new HeartRateConsentListenerImpl();
 
+    boolean distressTestSent = false;
+
     private int times = 0;
 
     private BandHeartRateEventListener mHeartRateEventListener = new BandHeartRateEventListener() {
@@ -44,15 +47,18 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
             impl.addSample(heartRate);
             if(times>HeartRateConsentListenerImpl.MIN_SAMPLES) {
                 boolean cond=impl.inNormalRange(heartRate);
-                if(!cond) {
+                if(!cond && !distressTestSent) {
                     // handle this
                     String phNum = getIntent().getStringExtra("phNum");
                     String name = getIntent().getStringExtra("name");
                     Log.e("out of range", "" + heartRate);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
+                    /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
                             + phNum));
                     intent.putExtra("sms_body", name + " is in trouble!");
-                    startActivity(intent);
+                    startActivity(intent);*/
+                    SmsManager sms = SmsManager.getDefault();
+                    sms.sendTextMessage(phNum, null, name + " is in trouble!", null, null);
+                    distressTestSent = true;
                 }
             }
             Log.e("heart rate", String.valueOf(heartRate));
