@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         int age = Integer.parseInt(et1.getText().toString());
 
         EditText et2 = (EditText) findViewById(R.id.editText2);
-        int phNum = Integer.parseInt(et2.getText().toString());
+        long phNum = Long.parseLong(et2.getText().toString());
 
         EditText et3 = (EditText) findViewById(R.id.editText3);
         String name = (et3.getText().toString());

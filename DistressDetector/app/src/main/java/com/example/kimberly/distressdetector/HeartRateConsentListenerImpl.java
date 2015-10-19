@@ -14,7 +14,7 @@ public class HeartRateConsentListenerImpl {
     private List<Integer> samples;
     // public int currentHeartRate;
 
-    public static final double Z_SCORE = 1.5;
+    public static final double Z_SCORE = .5;
 
     public HeartRateConsentListenerImpl() {
         samples = new ArrayList<Integer>(SAMPLES);

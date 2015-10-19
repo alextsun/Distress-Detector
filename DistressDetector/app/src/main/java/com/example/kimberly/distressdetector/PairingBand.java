@@ -2,6 +2,7 @@ package com.example.kimberly.distressdetector;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,7 +46,13 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
                 boolean cond=impl.inNormalRange(heartRate);
                 if(!cond) {
                     // handle this
-                    Log.e("out of range", ""+heartRate);
+                    String phNum = getIntent().getStringExtra("phNum");
+                    String name = getIntent().getStringExtra("name");
+                    Log.e("out of range", "" + heartRate);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:"
+                            + phNum));
+                    intent.putExtra("sms_body", name + " is in trouble!");
+                    startActivity(intent);
                 }
             }
             Log.e("heart rate", String.valueOf(heartRate));
@@ -59,7 +66,7 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
         Intent in = getIntent();
 
         String name = in.getStringExtra("name");
-        int phNum = Integer.parseInt(in.getStringExtra("phNum"));
+        long phNum = Long.parseLong(in.getStringExtra("phNum"));
         int age = Integer.parseInt(in.getStringExtra("age"));
 
         Log.e("message", "Name: " + name + " phNum: " + phNum + " age: " + age);
