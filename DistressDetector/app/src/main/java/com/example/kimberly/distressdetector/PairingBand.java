@@ -43,6 +43,7 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
         @Override
         public void onBandHeartRateChanged(final BandHeartRateEvent event) {
             heartRate = event.getHeartRate();
+
             times++;
             impl.addSample(heartRate);
             if(times>HeartRateConsentListenerImpl.MIN_SAMPLES) {
@@ -170,9 +171,6 @@ public class PairingBand extends AppCompatActivity implements HeartRateConsentLi
 
                             }
                         });
-
-//                        Intent transfer = new Intent(this, MainActivity.class);
-//                        startActivity(transfer);
                     }
                 } else {
                     appendToUI("Band isn't connected. Please make sure bluetooth is on and the band is in range.\n");
